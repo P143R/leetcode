@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
+// Leetcode
 char *longestCommonPrefix(char **strs, int strsSize) {
     char *res = *strs;
 
@@ -20,6 +21,7 @@ char *longestCommonPrefix(char **strs, int strsSize) {
 
     return *strs;
 }
+// !Leetcode
 
 int main() {
     char str1[] = "flower";

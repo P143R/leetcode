@@ -5,6 +5,7 @@ struct ListNode {
     struct ListNode *next;
 };
 
+// Leetcode
 struct ListNode *addTwoNumbers(struct ListNode *l1, struct ListNode *l2) {
     struct ListNode *merged = (struct ListNode *)malloc(sizeof(struct ListNode));
     struct ListNode *current = merged;
@@ -37,6 +38,7 @@ struct ListNode *addTwoNumbers(struct ListNode *l1, struct ListNode *l2) {
 
     return merged;
 }
+// !Leetcode
 
 int main() {
     return 0;

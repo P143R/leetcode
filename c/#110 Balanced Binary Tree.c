@@ -7,6 +7,7 @@ struct TreeNode {
     struct TreeNode *right;
 };
 
+// Leetcode
 int countNodeMaxDepth(struct TreeNode *root, int count) {
     if (root == NULL)
         return count;
@@ -30,6 +31,7 @@ bool isBalanced(struct TreeNode *root) {
 
     return isBalanced(root->right);
 }
+// !Leetcode
 
 void destroyTree(struct TreeNode *root) {
     if (root == NULL)

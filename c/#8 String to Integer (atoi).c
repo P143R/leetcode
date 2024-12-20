@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+// Leetcode
 #define MAX INT_MAX / 10
 
 int myAtoi(char *s) {
@@ -35,5 +36,6 @@ int myAtoi(char *s) {
 
     return res * negative;
 }
+// !Leetcode
 
 int main() { return 0; }

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// Leetcode
 int lengthOfLongestSubstring(char *right) {
     unsigned sequence[4] = {0, 0, 0, 0};
     int maxCount = 0;
@@ -25,6 +26,7 @@ int lengthOfLongestSubstring(char *right) {
 
     return maxCount;
 }
+// !Leetcode
 
 int main() {
     

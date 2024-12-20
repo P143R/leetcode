@@ -3,6 +3,7 @@
 #include <limits.h>
 #include <assert.h>
 
+// Leetcode
 #define MAX INT_MAX / 10
 
 int reverse(int x) {
@@ -23,6 +24,7 @@ int reverse(int x) {
 
         return res * negative;
 }
+// !Leetcode
 
 int main() {
 	assert(reverse(123) == 321);

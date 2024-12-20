@@ -6,6 +6,7 @@ struct ListNode {
     struct ListNode *next;
 };
 
+// Leetcode
 struct ListNode *mergeLists(struct ListNode *a, struct ListNode *b) {
     if (a == NULL)
         return b;
@@ -37,6 +38,7 @@ struct ListNode *mergeKLists(struct ListNode **lists, int listsSize) {
     
     return mergeLists(left, right);
 }
+// !Leetcode
 
 int main() {
     struct ListNode *lists[3];

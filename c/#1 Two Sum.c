@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "lib/uthash.h"
 
+// Leetcode
 typedef struct {
     int key;
     int value;
@@ -55,6 +56,7 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
     
     return res;
 }
+// !Leetcode
 
 int main() {
     int size;
