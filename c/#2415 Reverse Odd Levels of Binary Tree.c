@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 struct TreeNode {
     int val;
@@ -8,59 +9,25 @@ struct TreeNode {
 };
 
 // Leetcode
-void reverse(struct TreeNode *current[], int size) {
-    int i = 0;
-    int j = size - 1;
-    while (i < size / 2) {
-        int temp = current[i]->val;
-        current[i]->val = current[j]->val;
-        current[j]->val = temp;
+void postOrderTraversal(struct TreeNode *left, struct TreeNode *right, uint8_t level) {
+    if (left == NULL || right == NULL) 
+        return;
 
-        i++;
-        j--;
+    postOrderTraversal(left->left, right->right, level + 1);
+    postOrderTraversal(left->right, right->left, level + 1);
+
+    if (level % 2 != 0) {
+        left->val = left->val ^ right->val;
+        right->val = left->val ^ right->val;
+        left->val = left->val ^ right->val;
     }
 }
 
 struct TreeNode *reverseOddLevels(struct TreeNode *root) {
-    struct TreeNode *queue[1 << 15];
-    struct TreeNode *currentLevel[1 << 13];
+    if (root == NULL)
+        return NULL;
 
-    int front = 0;
-    int rear = 0;
-    int size = 0;
-    int level = 0;
-
-    queue[rear++] = root;
-    queue[rear++] = NULL;
-
-    while (front != rear) {
-        struct TreeNode *t = queue[front++];
-
-        if (t == NULL) {
-            if (level % 2 != 0) {
-                reverse(currentLevel, size);
-                size = 0;
-            }
-            
-            if (front == rear)
-                break;
-
-            queue[rear++] = NULL;
-
-            level++;
-            continue;
-        }
-
-        if (level % 2 != 0)
-            currentLevel[size++] = t;
-
-        if (t->left != NULL) 
-            queue[rear++] = t->left;
-
-
-        if (t->right != NULL) 
-            queue[rear++] = t->right;
-    }
+    postOrderTraversal(root->left, root->right, 1);
 
     return root;
 }
