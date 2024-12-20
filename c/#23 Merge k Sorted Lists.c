@@ -1,103 +1,75 @@
-#include <stdlib.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 struct ListNode {
-	int val;
-	struct ListNode *next;
+    int val;
+    struct ListNode *next;
 };
 
-typedef struct {
-    int* data;
-    int size;
-    int capacity;
-} SortedQueue;
+struct ListNode *mergeLists(struct ListNode *a, struct ListNode *b) {
+    if (a == NULL)
+        return b;
 
-void insert(SortedQueue* q, int value, int at) {
-    if (q->capacity == q->size) {
-        q->capacity *= 2;
-        q->data = (int*)realloc(q->data, sizeof(int) * q->capacity);
-    }
-
-    for (int i = q->size; i > at; i--)
-        q->data[i] = q->data[i - 1];
-
-    q->data[at] = value;
-    q->size++;
-}
-
-void pop(SortedQueue* q) { q->size--; }
-
-int lowerBound(SortedQueue q, int value) {
-    int left = 0;
-    int right = q.size;
-
-    while (left < right) {
-        int mid = left + (right - left) / 2;
-
-        if (q.data[mid] > value)
-            left = mid + 1;
-        else
-            right = mid;
-    }
-
-    return left;
-}
-
-struct ListNode* mergeKLists(struct ListNode** lists, int listsSize) {
-    struct ListNode* res = NULL;
-    struct ListNode* current;
-
-    SortedQueue q;
-    q.size = 0;
-    q.capacity = 2;
-    q.data = (int*)malloc(sizeof(int) * q.capacity);
-
-    bool isEmpty = true;
-
-    for (int i = 0; i < listsSize; i++) {
-        if (lists[i] != NULL) {
-            insert(&q, lists[i]->val, lowerBound(q, lists[i]->val));
-            lists[i] = lists[i]->next;
-
-            isEmpty = false;
-        }
-    }
-
-    while (q.size != 0) {
-        if (!isEmpty) {
-            isEmpty = true;
-
-            for (int i = 0; i < listsSize; i++) {
-                if (lists[i] != NULL) {
-                    insert(&q, lists[i]->val, lowerBound(q, lists[i]->val));
-                    lists[i] = lists[i]->next;
-
-                    isEmpty = false;
-                }
-            }
-        }
-
-        if (res == NULL) {
-            res = (struct ListNode*)malloc(sizeof(struct ListNode));
-            res->next = NULL;
-            current = res;
-        }
+    if (b == NULL)
+        return a;
+    
+    if (a->val < b->val) {
+        a->next = mergeLists(a->next, b);
         
-        current->val = q.data[q.size - 1];
-        pop(&q);
-
-        if (q.size != 0) {
-            current->next = (struct ListNode*)malloc(sizeof(struct ListNode));
-            current = current->next;
-            current->next = NULL;
-        }
+        return a;
     }
+    
+    b->next = mergeLists(a, b->next);
+    
+    return b;
+}
 
-    free(q.data);
+struct ListNode *mergeKLists(struct ListNode **lists, int listsSize) {
+    if (listsSize == 0)
+        return NULL;
+    else if (listsSize == 1)
+        return *lists;
 
-    return res;
+    int mid = listsSize / 2;
+
+    struct ListNode *left = mergeKLists(lists, mid);
+    struct ListNode *right = mergeKLists(lists + mid, listsSize - mid);
+    
+    return mergeLists(left, right);
 }
 
 int main() {
+    struct ListNode *lists[3];
+    lists[0] = (struct ListNode *)malloc(sizeof(struct ListNode));
+    lists[0]->val = 1;
+    lists[0]->next = (struct ListNode *)malloc(sizeof(struct ListNode));
+    lists[0]->next->val = 4;
+    lists[0]->next->next = (struct ListNode *)malloc(sizeof(struct ListNode));
+    lists[0]->next->next->val = 5;
+    lists[0]->next->next->next = NULL;
+
+    lists[1] = (struct ListNode *)malloc(sizeof(struct ListNode));
+    lists[1]->val = 1;
+    lists[1]->next = (struct ListNode *)malloc(sizeof(struct ListNode));
+    lists[1]->next->val = 3;
+    lists[1]->next->next = (struct ListNode *)malloc(sizeof(struct ListNode));
+    lists[1]->next->next->val = 4;
+    lists[1]->next->next->next = NULL;
+
+    lists[2] = (struct ListNode *)malloc(sizeof(struct ListNode));
+    lists[2]->val = 2;
+    lists[2]->next = (struct ListNode *)malloc(sizeof(struct ListNode));
+    lists[2]->next->val = 6;
+    lists[2]->next->next = NULL;
+
+    struct ListNode *merged = mergeKLists(lists, 3);
+
+    while (merged != NULL) {
+        struct ListNode *temp = merged;
+        merged = merged->next;
+
+        free(temp);
+    }
+
     return 0;
 }
